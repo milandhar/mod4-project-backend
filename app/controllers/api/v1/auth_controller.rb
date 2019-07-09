@@ -4,8 +4,10 @@ class Api::V1::AuthController < ApplicationController
   def create
     @user = User.find_by(username: user_login_params[:username])
     #User#authenticate comes from BCrypt
-    if @user && @user.authenticate(user_login_params[:password_digest])
+    byebug
+    if @user && @user.authenticate(user_login_params[:password])
       # encode token comes from ApplicationController
+      byebug
       token = encode_token({user_id: @user.id})
 
       render json: { user: UserSerializer.new(@user), jwt: token}, status: :accepted
@@ -18,6 +20,6 @@ class Api::V1::AuthController < ApplicationController
 
   def user_login_params
     # params { userL {username: 'Chandler Bing', password: 'hi'}}
-    params.require(:user).permit(:username, :password_digest)
+    params.require(:user).permit(:username, :password)
   end
 end
