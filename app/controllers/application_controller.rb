@@ -24,7 +24,6 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
-    byebug
     if decoded_token
       # decoded_token=> [{"user_id"=>2}, {"alg"=>"HS256"}]
       # or nil if we can't decode the token
