@@ -22,10 +22,11 @@ class Api::V1::UsersController < ApplicationController
     end
   end
 
+
   private
 
   def user_params
     params.require(:user).permit(:username, :password, :img_path, :zipcode,
-      :email_address, :message_template)
+      :email_address, :message_template, :pets)
   end
 end

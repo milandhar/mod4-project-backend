@@ -1,5 +1,3 @@
 class UserPetSerializer < ActiveModel::Serializer
-  belongs_to :pet
-  belongs_to :user
-  attributes :id
+  attributes :id, :pet_id, :user_id
 end
