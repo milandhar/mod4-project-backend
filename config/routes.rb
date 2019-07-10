@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       post '/login', to: 'auth#create'
       get 'profile', to: 'users#profile'
       resources :pets, only: [:create, :edit, :index]
+      resources :user_pets, only: [:create, :edit, :index]
     end
   end
 end
