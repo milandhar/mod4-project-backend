@@ -8,7 +8,6 @@ class Api::V1::UserPetsController < ApplicationController
 
   def create
     @user_pet = UserPet.new(user_pet_params)
-    byebug
     if @user_pet.save
       render json: { user:   UserPetSerializer.new(@user_pet) }, status: :created
     else

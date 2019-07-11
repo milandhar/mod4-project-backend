@@ -7,18 +7,19 @@ class Api::V1::PetsController < ApplicationController
   end
 
   def create
+    @pets = []
     data = Pet.queryPetsDb
-    data["animals"].each do |animal|
-      @pet = Pet.find_or_create_by(name: animal["name"], small_photo_url: animal["photos"][0]["small"], medium_photo_url: animal["photos"][0]["medium"],
-      gender: animal["gender"], description: animal["description"], breed_primary: animal["breeds"]["primary"], species: animal["species"], age: animal["age"],
-      status: animal["status"], email_address: animal["contact"]["email"], profile_url: animal["url"])
-      byebug
-      if @pet.valid?
-        render json: { pet:   PetSerializer.new(@pet) }, status: :created
-      else
-        render json: {error: 'failed to create pet' }, status: :not_acceptable
+    if data!=nil
+      data["animals"].each do |animal|
+        @pet = Pet.find_or_create_by(name: animal["name"], small_photo_url: animal["photos"][0]["small"], medium_photo_url: animal["photos"][0]["medium"],
+        gender: animal["gender"], description: animal["description"], breed_primary: animal["breeds"]["primary"], species: animal["species"], age: animal["age"],
+        status: animal["status"], email_address: animal["contact"]["email"], profile_url: animal["url"])
+        if @pet.valid?
+          @pets.push(@pet)
+        end
       end
     end
+    render json: @pets
   end
 
 
