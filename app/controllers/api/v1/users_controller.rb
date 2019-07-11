@@ -14,7 +14,6 @@ class Api::V1::UsersController < ApplicationController
     @user = User.new(user_params)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost
     @user.password_digest = BCrypt::Password.create(params[:password], cost: cost)
-
     if @user.save
       @token = encode_token(user_id: @user.id)
       render json: { user:   UserSerializer.new(@user), jwt: @token }, status: :created
