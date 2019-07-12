@@ -2,8 +2,16 @@ class Api::V1::PetsController < ApplicationController
   skip_before_action :authorized, only: [:create, :index]
 
   def index
-    @pets = Pet.all
-    render json: @pets
+    @pets = []
+    if params["gender"]
+      @pets << Pet.where("gender" => params["gender"])
+    elsif params["age"]
+      @pets << Pet.where("age" => params["age"])
+    else
+      @pets << Pet.all
+    end
+
+    render json: @pets[0]
   end
 
   def create
@@ -55,7 +63,6 @@ class Api::V1::PetsController < ApplicationController
     end
     render json: @pets
   end
-
 
 
   private
