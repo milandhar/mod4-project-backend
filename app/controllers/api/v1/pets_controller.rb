@@ -3,20 +3,25 @@ class Api::V1::PetsController < ApplicationController
 
   def index
     @pets = []
-    if params["gender"]
-      @pets << Pet.where("gender" => params["gender"])
-    elsif params["age"]
-      @pets << Pet.where("age" => params["age"])
+
+    if params["gender"] && params["age"]
+      @pets.push(Pet.where("gender" => params["gender"], "age" => params["age"])).flatten!
     else
-      @pets << Pet.all
+      if params["gender"]
+        @pets.push(Pet.where("gender" => params["gender"])).flatten!
+      elsif params["age"]
+        @pets.push(Pet.where("age" => params["age"])).flatten!
+      else
+        @pets.push(Pet.all).flatten!
+      end
     end
 
-    render json: @pets[0]
+    render json: @pets
   end
 
   def create
     @pets = []
-    data = Pet.queryPetsDb
+    data = Pet.queryPetsDb({age: params["age"], gender: params["gender"]})
 
     if data && data["animals"]
       data["animals"].each do |animal|
