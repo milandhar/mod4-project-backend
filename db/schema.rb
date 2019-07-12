@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_09_213739) do
+ActiveRecord::Schema.define(version: 2019_07_12_174243) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 2019_07_09_213739) do
     t.string "img_path"
     t.integer "zipcode"
     t.string "email_address"
-    t.text "message_template"
+    t.text "message_template", default: "I found this pup's profile on BarkBrowser and I am interested in potentially meeting and adopting them. Please let me know your availability so we can set up a meeting! Looking forward to connecting."
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
