@@ -1,9 +1,23 @@
 class Api::V1::UsersController < ApplicationController
-  skip_before_action :authorized, only: [:create, :index, :update]
+  skip_before_action :authorized, only: [:create, :index, :update, :removePet]
 
   def index
     @users = User.all
     render json: @users
+  end
+
+  def removePet
+    userId = params[:userId]
+    dogId = params[:dogId]
+
+
+    @userPet = UserPet.find_by(user_id: userId, pet_id: dogId)
+
+    if @userPet.delete
+      render json: {error: 'removed pet from favorites' }, status: :accepted
+    else
+      render json: {error: 'failed to remove pet' }, status: :not_acceptable
+    end
   end
 
   def profile
